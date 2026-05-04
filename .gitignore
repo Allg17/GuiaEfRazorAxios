@@ -1,0 +1,8 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/GuiaEfRazorAxios/bin/Debug/net8.0
+/GuiaEfRazorAxios/.vs/GuiaEfRazorAxios
+/GuiaEfRazorAxios/obj

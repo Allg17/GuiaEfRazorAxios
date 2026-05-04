@@ -1,0 +1,45 @@
+@model IEnumerable<GuiaEfRazorAxios.Models.Producto>
+
+@*
+    Vista: Views/Productos/Index.cshtml
+    Ruta MVC: /Productos
+    Controlador/accion: ProductosController.Index()
+    Modelo recibido: IEnumerable<Producto> con Categoria cargada por ProductoService.
+    Objetivo: listar productos y mostrar la categoria relacionada de cada uno.
+    Conceptos usados: propiedad de navegacion Producto.Categoria, operador ?. y formato de moneda.
+    Razor: https://learn.microsoft.com/en-us/aspnet/core/mvc/views/razor
+*@
+
+@{
+    ViewData["Title"] = "Productos";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+        <h1 class="h3">Productos</h1>
+        <p class="text-muted mb-0">Tabla dependiente: cada producto pertenece a una categoria.</p>
+    </div>
+    <a class="btn btn-primary" asp-action="Create">Nuevo producto</a>
+</div>
+
+<table class="table table-striped table-hover align-middle">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Categoria</th>
+            <th>Precio</th>
+            <th>Stock</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var producto in Model)
+    {
+        <tr>
+            <td>@producto.Nombre</td>
+            <td>@producto.Categoria?.Nombre</td>
+            <td>@producto.Precio.ToString("C")</td>
+            <td>@producto.Stock</td>
+        </tr>
+    }
+    </tbody>
+</table>

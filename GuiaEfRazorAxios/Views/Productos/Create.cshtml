@@ -1,0 +1,70 @@
+@model GuiaEfRazorAxios.Models.Producto
+
+@*
+    Vista: Views/Productos/Create.cshtml
+    Ruta MVC GET/POST: /Productos/Create
+    Controlador/acciones: ProductosController.Create()
+    Modelo recibido/enviado: Producto.
+    Objetivo: crear un producto seleccionando una categoria existente.
+    Dato importante: el select asp-for="CategoriaId" recibe opciones desde ViewBag.CategoriaId.
+    Conceptos usados: Select Tag Helper, validacion, llave foranea y formulario POST.
+    Formularios y select: https://learn.microsoft.com/en-us/aspnet/core/mvc/views/working-with-forms
+*@
+
+@{
+    ViewData["Title"] = "Nuevo producto";
+}
+
+<h1 class="h3">Nuevo producto</h1>
+
+@*
+    asp-action="Create" genera el action del formulario apuntando a ProductosController.Create POST.
+    method="post" indica que los datos viajan en el cuerpo de la solicitud HTTP.
+*@
+<form asp-action="Create" method="post" class="col-lg-6">
+    @*
+        asp-validation-summary="ModelOnly" muestra errores generales del modelo.
+        Ejemplo: "La categoria seleccionada no existe", agregado con ModelState.AddModelError.
+    *@
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="mb-3">
+        @* asp-for conecta label/input/span con Producto.Nombre y sus validaciones DataAnnotations. *@
+        <label asp-for="Nombre" class="form-label"></label>
+        <input asp-for="Nombre" class="form-control" />
+        <span asp-validation-for="Nombre" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="CategoriaId" class="form-label"></label>
+        @*
+            asp-for="CategoriaId" enlaza el valor seleccionado con Producto.CategoriaId.
+            asp-items="ViewBag.CategoriaId" usa el SelectList creado en ProductosController.LoadCategoriasAsync().
+        *@
+        <select asp-for="CategoriaId" asp-items="ViewBag.CategoriaId" class="form-select">
+            <option value="">Seleccione una categoria</option>
+        </select>
+        <span asp-validation-for="CategoriaId" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Precio" class="form-label"></label>
+        <input asp-for="Precio" class="form-control" />
+        <span asp-validation-for="Precio" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Stock" class="form-label"></label>
+        <input asp-for="Stock" class="form-control" />
+        <span asp-validation-for="Stock" class="text-danger"></span>
+    </div>
+
+    @* type="submit" dispara el envio del formulario hacia la accion POST configurada en asp-action. *@
+    <button class="btn btn-primary" type="submit">Guardar</button>
+    <a class="btn btn-outline-secondary" asp-action="Index">Cancelar</a>
+</form>
+
+@section Scripts {
+    @* Carga validacion cliente solo para esta vista de formulario. *@
+    <partial name="_ValidationScriptsPartial" />
+}

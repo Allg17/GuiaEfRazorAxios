@@ -1,0 +1,52 @@
+@model GuiaEfRazorAxios.Models.Categoria
+
+@*
+    Vista: Views/Categorias/Details.cshtml
+    Ruta MVC: /Categorias/Details/{id}
+    Controlador/accion: CategoriasController.Details(int id)
+    Modelo recibido: Categoria con Productos cargados por el servicio/repositorio usando Include.
+    Objetivo: mostrar una categoria y sus muchos productos relacionados.
+    Conceptos usados: propiedad de navegacion, LINQ OrderBy, if, foreach y relacion uno-a-muchos.
+    Documentacion EF relationships: https://learn.microsoft.com/en-us/ef/core/modeling/relationships
+*@
+
+@{
+    ViewData["Title"] = "Detalle de categoria";
+}
+
+<h1 class="h3">@Model.Nombre</h1>
+<p class="text-muted">@Model.Descripcion</p>
+
+<div class="mb-3">
+    <a class="btn btn-primary" asp-controller="Productos" asp-action="Create">Agregar producto</a>
+    <a class="btn btn-outline-secondary" asp-action="Index">Volver</a>
+</div>
+
+<h2 class="h5">Productos de esta categoria</h2>
+
+@if (!Model.Productos.Any())
+{
+    <div class="alert alert-info">Esta categoria aun no tiene productos.</div>
+}
+else
+{
+    <table class="table table-bordered align-middle">
+        <thead>
+            <tr>
+                <th>Producto</th>
+                <th>Precio</th>
+                <th>Stock</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var producto in Model.Productos.OrderBy(producto => producto.Nombre))
+        {
+            <tr>
+                <td>@producto.Nombre</td>
+                <td>@producto.Precio.ToString("C")</td>
+                <td>@producto.Stock</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}

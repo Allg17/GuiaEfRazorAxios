@@ -1,0 +1,45 @@
+@model GuiaEfRazorAxios.Models.Categoria
+
+@*
+    Vista: Views/Categorias/Edit.cshtml
+    Ruta MVC GET/POST: /Categorias/Edit/{id}
+    Controlador/acciones: CategoriasController.Edit(int id)
+    Modelo recibido/enviado: Categoria existente.
+    Objetivo: editar datos de una categoria sin modificar sus productos relacionados.
+    Conceptos usados: input hidden para conservar Id, ModelState, Tag Helpers y validacion.
+    Tag Helpers: https://learn.microsoft.com/en-us/aspnet/core/mvc/views/tag-helpers/built-in
+*@
+
+@{
+    ViewData["Title"] = "Editar categoria";
+}
+
+<h1 class="h3">Editar categoria</h1>
+
+@* En edicion se usa POST para enviar cambios al servidor. *@
+<form asp-action="Edit" method="post" class="col-lg-6">
+    @* Hidden mantiene el Id aunque el usuario no lo vea ni lo edite. Sin Id, el servicio no sabria que registro actualizar. *@
+    <input type="hidden" asp-for="Id" />
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="mb-3">
+        <label asp-for="Nombre" class="form-label"></label>
+        <input asp-for="Nombre" class="form-control" />
+        <span asp-validation-for="Nombre" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Descripcion" class="form-label"></label>
+        <textarea asp-for="Descripcion" class="form-control" rows="3"></textarea>
+        <span asp-validation-for="Descripcion" class="text-danger"></span>
+    </div>
+
+    @* type="submit" envia los cambios a CategoriasController.Edit POST. *@
+    <button class="btn btn-primary" type="submit">Guardar cambios</button>
+    <a class="btn btn-outline-secondary" asp-action="Index">Cancelar</a>
+</form>
+
+@section Scripts {
+    @* Carga validacion cliente para que los errores aparezcan antes de enviar al servidor cuando sea posible. *@
+    <partial name="_ValidationScriptsPartial" />
+}

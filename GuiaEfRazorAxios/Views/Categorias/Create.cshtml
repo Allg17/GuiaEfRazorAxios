@@ -1,0 +1,46 @@
+@model GuiaEfRazorAxios.Models.Categoria
+
+@*
+    Vista: Views/Categorias/Create.cshtml
+    Ruta MVC GET/POST: /Categorias/Create
+    Controlador/acciones: CategoriasController.Create()
+    Modelo recibido/enviado: Categoria.
+    Objetivo: crear una categoria desde un formulario Razor.
+    Conceptos usados: Form Tag Helper, asp-for, asp-validation-for, anti-forgery token y validacion cliente.
+    Formularios: https://learn.microsoft.com/en-us/aspnet/core/mvc/views/working-with-forms
+    Validacion: https://learn.microsoft.com/en-us/aspnet/core/mvc/models/validation
+*@
+
+@{
+    ViewData["Title"] = "Nueva categoria";
+}
+
+<h1 class="h3">Nueva categoria</h1>
+
+@* Formulario MVC: asp-action genera la URL hacia CategoriasController.Create POST. *@
+<form asp-action="Create" method="post" class="col-lg-6">
+    @* Muestra errores generales agregados al ModelState, no errores de una propiedad especifica. *@
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="mb-3">
+        @* asp-for toma metadata de Categoria.Nombre: nombre, valor actual y validaciones. *@
+        <label asp-for="Nombre" class="form-label"></label>
+        <input asp-for="Nombre" class="form-control" />
+        <span asp-validation-for="Nombre" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Descripcion" class="form-label"></label>
+        <textarea asp-for="Descripcion" class="form-control" rows="3"></textarea>
+        <span asp-validation-for="Descripcion" class="text-danger"></span>
+    </div>
+
+    @* type="submit" envia el formulario al servidor usando method="post". *@
+    <button class="btn btn-primary" type="submit">Guardar</button>
+    <a class="btn btn-outline-secondary" asp-action="Index">Cancelar</a>
+</form>
+
+@section Scripts {
+    @* Partial de scripts para que Required/StringLength puedan validarse tambien en el navegador. *@
+    <partial name="_ValidationScriptsPartial" />
+}

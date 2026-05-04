@@ -1,0 +1,30 @@
+@model GuiaEfRazorAxios.Models.Categoria
+
+@*
+    Vista: Views/Categorias/Delete.cshtml
+    Ruta MVC GET/POST: /Categorias/Delete/{id}
+    Controlador/acciones: CategoriasController.Delete() y DeleteConfirmed()
+    Modelo recibido: Categoria con Productos para validar si se puede eliminar.
+    Objetivo: pedir confirmacion y mostrar errores si la regla de negocio impide eliminar.
+    Regla relacionada: CategoriaService bloquea eliminar categorias con productos.
+    Validacion/ModelState: https://learn.microsoft.com/en-us/aspnet/core/mvc/models/validation
+*@
+
+@{
+    ViewData["Title"] = "Eliminar categoria";
+}
+
+<h1 class="h3">Eliminar categoria</h1>
+
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+<div class="alert alert-warning">
+    Vas a eliminar la categoria <strong>@Model.Nombre</strong>.
+    Si tiene productos relacionados, el sistema no permitira eliminarla.
+</div>
+
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="Id" />
+    <button class="btn btn-danger" type="submit">Eliminar</button>
+    <a class="btn btn-outline-secondary" asp-action="Index">Cancelar</a>
+</form>

@@ -1,0 +1,44 @@
+@{
+    ViewData["Title"] = "Inicio";
+}
+
+@*
+    Vista: Views/Home/Index.cshtml
+    Ruta MVC: /
+    Controlador/accion: HomeController.Index()
+    Objetivo: pagina inicial con accesos a Categorias, Productos y ProductosAxios.
+    Conceptos usados: Tag Helpers asp-controller/asp-action para generar enlaces MVC.
+    MVC: https://learn.microsoft.com/en-us/aspnet/core/mvc/overview
+*@
+
+<div class="py-4">
+    <h1 class="display-5">Guia ASP.NET Core MVC, EF Core, Razor y Axios</h1>
+    <p class="lead">
+        Proyecto academico basico para estudiar como una aplicacion .NET se conecta a SQL Server
+        con Entity Framework Core y muestra datos usando Razor Views y una pagina HTML con JavaScript.
+    </p>
+
+    <div class="row g-3 mt-3">
+        <div class="col-md-4">
+            <div class="border rounded p-3 h-100">
+                <h2 class="h5">Relacion 1:N</h2>
+                <p class="mb-3">Una categoria puede tener muchos productos. Cada producto pertenece a una categoria.</p>
+                <a class="btn btn-outline-primary" asp-controller="Categorias" asp-action="Index">Ver categorias</a>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="border rounded p-3 h-100">
+                <h2 class="h5">Razor Views</h2>
+                <p class="mb-3">Las vistas .cshtml reciben modelos C# y generan HTML desde el servidor.</p>
+                <a class="btn btn-outline-primary" asp-controller="Productos" asp-action="Index">Ver productos</a>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="border rounded p-3 h-100">
+                <h2 class="h5">HTML + Axios</h2>
+                <p class="mb-3">Una pagina estatica consume una API JSON expuesta por ASP.NET Core.</p>
+                <a class="btn btn-outline-primary" asp-controller="ProductosAxios" asp-action="Index">Abrir ejemplo</a>
+            </div>
+        </div>
+    </div>
+</div>
