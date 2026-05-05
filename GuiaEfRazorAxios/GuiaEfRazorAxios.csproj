@@ -10,4 +10,11 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.11" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="GuiaEfRazorAxios.Tests\**\*.cs" />
+    <Content Remove="GuiaEfRazorAxios.Tests\**\*" />
+    <EmbeddedResource Remove="GuiaEfRazorAxios.Tests\**\*" />
+    <None Remove="GuiaEfRazorAxios.Tests\**\*" />
+  </ItemGroup>
+
 </Project>

@@ -146,6 +146,12 @@ GuiaEfRazorAxios/
   Program.cs
   appsettings.json
   GuiaEfRazorAxios.csproj
+
+  GuiaEfRazorAxios.Tests/
+    Controllers/
+    Services/
+    TestHelpers/
+    GuiaEfRazorAxios.Tests.csproj
 ```
 
 ## 5. Explicacion de Carpetas
@@ -529,7 +535,70 @@ Compilacion correcta.
 0 Errores
 ```
 
-## 14. Ideas para Practicar
+## 14. Pruebas Unitarias
+
+La solucion incluye un proyecto separado de pruebas:
+
+```text
+GuiaEfRazorAxios.Tests/
+```
+
+Tecnologias usadas:
+
+- `xUnit`: framework para escribir y ejecutar pruebas.
+- `Moq`: libreria para crear objetos simulados o mocks.
+- `Microsoft.NET.Test.Sdk`: infraestructura para que `dotnet test` encuentre y ejecute pruebas.
+
+Para ejecutar las pruebas:
+
+```powershell
+dotnet test GuiaEfRazorAxios.sln
+```
+
+Que se prueba:
+
+- `CategoriaService`: mapeo a DTOs, crear, editar, eliminar y regla de no borrar categorias con productos.
+- `ProductoService`: mapeo a DTOs, crear productos, validar categoria existente y crear desde DTO de API.
+- `OperationResult`: resultados de exito y error.
+- `CategoriasController`: vistas, redirecciones, `NotFound` y errores de `ModelState`.
+- `ProductosController`: carga de `SelectList`, vistas, redirecciones y errores de negocio.
+- `ApiProductosController`: respuestas `Ok`, `Created` y errores de validacion.
+- `ProductosAxiosController`: retorno de vista.
+
+Por que se usa Moq:
+
+```text
+Los servicios y controladores dependen de interfaces.
+En los tests se reemplazan esas interfaces por mocks.
+Asi se prueba una unidad de codigo sin conectarse a SQL Server ni levantar el servidor web.
+```
+
+Ejemplo conceptual:
+
+```csharp
+var categoriaRepository = new Mock<ICategoriaRepository>();
+categoriaRepository
+    .Setup(repository => repository.GetByIdAsync(1))
+    .ReturnsAsync(new Categoria { Id = 1 });
+```
+
+Esto significa:
+
+- No se consulta la base real.
+- Se define que debe devolver el repositorio falso.
+- El test se enfoca solo en la regla que se quiere verificar.
+
+Nota importante:
+
+El proyecto de tests esta dentro de la carpeta de la solucion. Por eso el proyecto web excluye `GuiaEfRazorAxios.Tests/**` en su `.csproj`, para que el proyecto MVC no intente compilar archivos de pruebas como parte de la aplicacion.
+
+Referencias:
+
+- xUnit: https://xunit.net/
+- Moq: https://github.com/devlooped/moq
+- Pruebas en .NET: https://learn.microsoft.com/en-us/dotnet/core/testing/
+
+## 15. Ideas para Practicar
 
 1. Agregar editar productos.
 2. Agregar eliminar productos.
@@ -542,7 +611,7 @@ Compilacion correcta.
 9. Crear paginacion para productos.
 10. Agregar filtros por categoria en la vista Axios.
 
-## 15. Resumen de Buenas Practicas Aplicadas
+## 16. Resumen de Buenas Practicas Aplicadas
 
 - Controladores delgados.
 - Interfaces separadas en `Interfaces`.
@@ -550,11 +619,12 @@ Compilacion correcta.
 - Servicios para reglas de negocio.
 - DTOs para la API.
 - Logging en capas importantes.
+- Pruebas unitarias en proyecto separado con xUnit y Moq.
 - Relacion uno-a-muchos configurada en EF Core.
 - Vista Axios ubicada en `Views`, servida por controlador MVC.
 - Comentarios educativos en clases principales para entender cada parte del codigo.
 
-## 16. Referencias para Estudiar Mas
+## 17. Referencias para Estudiar Mas
 
 Estas URLs sirven para que el estudiante investigue cada tema con documentacion oficial o ampliamente usada.
 
